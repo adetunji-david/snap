@@ -68,6 +68,6 @@ int main(int argc, char* argv[]) {
   printf("\nrun time: %s (%s)\n", ExeTm.GetTmStr(), TSecTm::GetCurTm().GetTmStr().CStr());
   printf("\nAdditional Information");
   printf("\nruntime_seconds: %f", ExeTm.GetSecs());
-  printf("\nlikelihood: %f", likelihood);
+  printf("\nlikelihood: %f\n", likelihood);
   return 0;
 }
