@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
   Env = TEnv(argc, argv, TNotify::StdNotify);
   Env.PrepArgs(TStr::Fmt("ragm. build: %s, %s. Time: %s", __TIME__, __DATE__, TExeTm::GetCurTm()));
   TExeTm ExeTm;
+  double likelihood;
   Try
   TStr OutFPrx = Env.GetIfArgPrefixStr("-o:", "", "Output Graph data prefix");
   const TStr InFNm = Env.GetIfArgPrefixStr("-i:", "../as20graph.txt", "Input edgelist file name");
@@ -57,6 +58,7 @@ int main(int argc, char* argv[]) {
   } else {
     RAGM.MLEGradAscentParallel(0.0001, 1000, NumThreads, "", StepAlpha, StepBeta);
   }
+  likelihood = RAGM.Likelihood(RAGM.DoParallel);
   RAGM.GetCmtyVV(EstCmtyVV);
   TAGMUtil::DumpCmtyVV(OutFPrx + "cmtyvv.txt", EstCmtyVV, NIDNameH);
   TAGMUtil::SaveGephi(OutFPrx + "graph.gexf", G, EstCmtyVV, 1.5, 1.5, NIDNameH);
@@ -64,6 +66,8 @@ int main(int argc, char* argv[]) {
   Catch
 
   printf("\nrun time: %s (%s)\n", ExeTm.GetTmStr(), TSecTm::GetCurTm().GetTmStr().CStr());
-
+  printf("\nAdditional Information");
+  printf("\nruntime_seconds: %f", ExeTm.GetSecs());
+  printf("\nlikelihood: %f", likelihood);
   return 0;
 }
